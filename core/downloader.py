@@ -4,13 +4,6 @@ import subprocess
 
 def download_video(source: str, output_dir: str = "data/input") -> str:
     os.makedirs(output_dir, exist_ok=True)
-
-    if os.path.isfile(source):
-        dest = os.path.join(output_dir, os.path.basename(source))
-        if source != dest:
-            import shutil
-            shutil.copy(source, dest)
-        return dest
     
     ydl_opts = {
         "format": "bestvideo[ext=mp4][height<=360]+bestaudio[ext=m4a]/best[ext=mp4][height<=360]",

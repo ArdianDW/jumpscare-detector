@@ -1,7 +1,7 @@
 from core.downloader import download_video, extract_audio
 
 def main ():
-    source = input("enter youtube url or local file path: ")
+    source = input("enter youtube url : ")
 
     video_path = download_video(source)
     print(f"Video downloaded to: {video_path}")
