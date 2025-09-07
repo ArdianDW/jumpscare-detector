@@ -20,12 +20,12 @@ def detect_audio_jumpscares(audio_path: str, sr: int = 22050) -> list[float]:
     bass_diff = np.diff(bass_energy, prepend=bass_energy[0])
 
     jumpscare_times = []
-    cooldown = 3.0  
+    cooldown = 5.0  
     last_detect = -cooldown
 
     for i in range(len(rms)):
         time = librosa.frames_to_time(i, sr=sr, hop_length=hop_length)
-        if rms_diff[i] > 0.18 and bass_diff[i] > 0.10:
+        if rms_diff[i] > 0.21 and bass_diff[i] > 0.12:
             if time - last_detect >= cooldown:
                 jumpscare_times.append(time)
                 last_detect = time

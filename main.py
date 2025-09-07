@@ -20,7 +20,7 @@ def filter_close_timestamps(timestamps, min_gap=10.0):
 def main():
     url = input("enter youtube url: ").strip()
 
-    print("dwnloading video...")
+    print("downloading video...")
     video_path = download_video(url)
 
     print("extracting audio...")
@@ -29,8 +29,8 @@ def main():
     print("checking audio...")
     audio_timestamps = detect_audio_jumpscares(audio_path)
 
-    print("checking visuals...")
-    visual_timestamps = detect_visual_jumpscares(video_path)
+    print("checking visuals (as confirmation)...")
+    visual_timestamps = detect_visual_jumpscares(video_path, audio_timestamps)
 
     print("\n=== Jumpscares Possibility ===")
 
@@ -38,7 +38,7 @@ def main():
     for t in filter_close_timestamps(audio_timestamps, min_gap=10.0):
         print(f"➡ {format_time(t)}")
 
-    print("\n[Visual]")
+    print("\n[Audio + Visual confirmed]")
     for t in filter_close_timestamps(visual_timestamps, min_gap=10.0):
         print(f"➡ {format_time(t)}")
 
