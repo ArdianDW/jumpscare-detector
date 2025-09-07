@@ -1,13 +1,21 @@
 from core.downloader import download_video, extract_audio
+from core.audio_analysis import detect_jumpscares, format_time
 
-def main ():
-    source = input("enter youtube url : ")
+def main():
+    url = input("enter youtube url: ")
 
-    video_path = download_video(source)
-    print(f"Video downloaded to: {video_path}")
+    print("dwnloading video...")
+    video_path = download_video(url)
 
+    print("extracting audio...")
     audio_path = extract_audio(video_path)
-    print(f"Audio extracted to: {audio_path}")
+
+    print("checking jumpscares...")
+    timestamps = detect_jumpscares(audio_path)
+
+    print("\n jumpscare possibility at:")
+    for t in timestamps:
+        print(f"- {format_time(t)} ({t:.2f} sec)")
 
 if __name__ == "__main__":
     main()
