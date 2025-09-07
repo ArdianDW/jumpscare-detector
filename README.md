@@ -1,4 +1,5 @@
-buat nonton replay stream wielino \n
+buat nonton replay stream wielino
+
 ![Preview](image/hmm.jpg)
 
 
