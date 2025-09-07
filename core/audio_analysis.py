@@ -1,12 +1,7 @@
 import librosa
 import numpy as np
 
-def format_time(seconds: float) -> str:
-    minutes = int(seconds // 60)
-    secs = int(seconds % 60)
-    return f"{minutes:02d}:{secs:02d}"
-
-def detect_jumpscares(audio_path: str, sr: int = 22050) -> list[str]:
+def detect_audio_jumpscares(audio_path: str, sr: int = 22050) -> list[float]:
     y, sr = librosa.load(audio_path, sr=sr)
 
     hop_length = 512
@@ -25,12 +20,12 @@ def detect_jumpscares(audio_path: str, sr: int = 22050) -> list[str]:
     bass_diff = np.diff(bass_energy, prepend=bass_energy[0])
 
     jumpscare_times = []
-    cooldown = 8.0
+    cooldown = 5.0  
     last_detect = -cooldown
 
     for i in range(len(rms)):
         time = librosa.frames_to_time(i, sr=sr, hop_length=hop_length)
-        if rms_diff[i] > 0.25 and bass_diff[i] > 0.15:
+        if rms_diff[i] > 0.21 and bass_diff[i] > 0.12:
             if time - last_detect >= cooldown:
                 jumpscare_times.append(time)
                 last_detect = time
