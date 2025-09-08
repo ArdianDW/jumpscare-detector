@@ -56,5 +56,12 @@ def main():
 
     print(f"\nresult : {filename}")
 
+    try:
+        os.remove(video_path)
+        os.remove(audio_path)
+        print("video and audio deleted")
+    except Exception as e:
+        print(f"failed : {e}")
+
 if __name__ == "__main__":
     main()
