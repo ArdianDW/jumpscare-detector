@@ -2,7 +2,7 @@ import os
 import yt_dlp
 import subprocess
 
-def download_video(source: str, output_dir: str = "data/input") -> str:
+def download_video(source: str, output_dir: str = "data/input") -> tuple[str, str]:
     os.makedirs(output_dir, exist_ok=True)
     
     ydl_opts = {
@@ -15,8 +15,9 @@ def download_video(source: str, output_dir: str = "data/input") -> str:
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(source, download=True)
         video_path = ydl.prepare_filename(info)
+        video_title = info.get("title", "video")
 
-    return video_path
+    return video_path, video_title
 
 def extract_audio(video_path: str, output_dir: str = "data/input") -> str:
     os.makedirs(output_dir, exist_ok=True)

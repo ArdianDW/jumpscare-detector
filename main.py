@@ -21,7 +21,7 @@ def main():
     url = input("enter youtube url: ").strip()
 
     print("downloading video...")
-    video_path = download_video(url)
+    video_path, video_title = download_video(url)
 
     print("extracting audio...")
     audio_path = extract_audio(video_path)
@@ -32,15 +32,29 @@ def main():
     print("checking visuals (as confirmation)...")
     visual_timestamps = detect_visual_jumpscares(video_path, audio_timestamps)
 
-    print("\n=== Jumpscares Possibility ===")
+    output_lines = []
+    output_lines.append("=== Jumpscares Possibility ===\n")
 
-    print("\n[Audio]")
+    output_lines.append("[Audio]")
     for t in filter_close_timestamps(audio_timestamps, min_gap=10.0):
-        print(f"➡ {format_time(t)}")
+        output_lines.append(f"➡ {format_time(t)}")
+    output_lines.append("")
 
-    print("\n[Audio + Visual confirmed]")
+    output_lines.append("[Audio + Visual confirmed]")
     for t in filter_close_timestamps(visual_timestamps, min_gap=10.0):
-        print(f"➡ {format_time(t)}")
+        output_lines.append(f"➡ {format_time(t)}")
+
+    print("\n".join(output_lines))
+
+    import os
+    os.makedirs("data/output", exist_ok=True)
+    safe_title = "".join(c if c.isalnum() or c in " _-" else "_" for c in video_title)
+    filename = os.path.join("data/output", f"jumpscare {safe_title}.txt")
+
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write("\n".join(output_lines))
+
+    print(f"\nresult : {filename}")
 
 if __name__ == "__main__":
     main()
